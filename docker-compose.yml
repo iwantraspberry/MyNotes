@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  docs-dev:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/docs
+    command: mkdocs serve -a 0.0.0.0:8000
+
+  docs-prod:
+    build:
+      context: .
+      target: prod
+    ports:
+      - "8080:80"

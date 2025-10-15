@@ -50,6 +50,42 @@ mkdocs serve
 mkdocs build
 ```
 
+## 🐳 Docker で使う
+
+DockerがあればPython環境なしでも動かせます。
+
+- 開発（ホットリロード）:
+```bash
+# dev サービスで起動（http://localhost:8000）
+docker compose up --build docs-dev
+```
+
+- 本番（静的サイトをnginxで配信）:
+```bash
+# prod サービスで起動（http://localhost:8080）
+docker compose up --build docs-prod
+```
+
+- 単体Dockerで開発サーバー:
+```bash
+# イメージをdevターゲットでビルド
+DOCKER_BUILDKIT=1 docker build --target dev -t mynotes-dev .
+# 起動
+docker run --rm -it -p 8000:8000 -v "$PWD":/docs mynotes-dev
+```
+
+- 単体Dockerで本番静的配信:
+```bash
+# prodターゲットでイメージをビルド
+DOCKER_BUILDKIT=1 docker build --target prod -t mynotes-prod .
+# 起動（http://localhost:8080）
+docker run --rm -it -p 8080:80 mynotes-prod
+```
+
+ヒント:
+- Apple Silicon(M1/M2/M3)でも対応可能なベースイメージを使用しています。
+- docker compose v2（`docker compose`）を想定しています。
+
 ## 📝 使い方
 
 ### 新しいノートを追加
